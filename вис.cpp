@@ -29,3 +29,30 @@ void displayState(const string& word, const string& guessed)
     }
     cout << endl;
 }
+// Функция для проверки буквы
+bool checkGuess(char guess, const string& word, string& guessed)
+{
+    // Проверяем, была ли уже угадана буква
+    for (char g : guessed)
+    {
+        if (g == guess)
+        {
+            return false; // Буква уже угадана
+        }
+    }
+
+    // Добавляем букву в строку угаданных букв
+    guessed += guess;
+
+    // Проверяем, есть ли буква в слове
+    for (char c : word)
+    {
+        if (c == guess)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
