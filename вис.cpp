@@ -30,30 +30,38 @@ void displayState(const string& word, const string& guessed)
     cout << endl;
 }
 // Функция для проверки буквы
-bool checkGuess(char guess, const string& word, string& guessed)
+bool checkGuess(char guess, const string& word, string& guessed, int& attempts)
 {
     // Проверяем, была ли уже угадана буква
     for (char g : guessed)
     {
         if (g == guess)
         {
-            return false; // Буква уже угадана
+            cout << "Эта буква уже была угадана: " << guess << endl;
+            return false; 
         }
     }
 
     // Добавляем букву в строку угаданных букв
     guessed += guess;
-
+    bool found = false;
     // Проверяем, есть ли буква в слове
     for (char c : word)
     {
         if (c == guess)
         {
-            return true;
+            found = true;
+            break;
         }
     }
-
-    return false;
+    if (!found) // Если буква не найдена в слове
+    {
+        attempts++; // Увеличиваем кол-во попыток если буква не была угадана
+    }
+    return found;
+}
+bool isLetter(char c) {
+    return (c >= 'А' && c <= 'Я') || (c >= 'а' && c <= 'я');  // Для русских букв
 }
 int main()
 {
@@ -78,18 +86,15 @@ int main()
         cout << "Введите букву: ";
         char guess;
         cin >> guess;
-        if (!isalpha(guess)) {
+        if (!isLetter(guess)) {
             cout << "Ошибка: Введите только буквы!" << endl;
             continue; // Запрос нового ввода
         }
 
         // Приводим введенный символ к нижнему регистру
         guess = tolower(guess);
-
-        // Проверяем, была ли буква угадана
-        if (!checkGuess(guess, word, guessed))
+        if (!checkGuess(guess, word, guessed, attempts)) // была ли буква угадана 
         {
-            attempts++;
             cout << "Неправильно! Осталось попыток: " << (maxAttempts - attempts) << endl;
         }
         else
