@@ -78,6 +78,10 @@ int main()
         cout << "Введите букву: ";
         char guess;
         cin >> guess;
+        if (!isalpha(guess)) {
+            cout << "Ошибка: Введите только буквы!" << endl;
+            continue; // Запрос нового ввода
+        }
 
         // Приводим введенный символ к нижнему регистру
         guess = tolower(guess);
